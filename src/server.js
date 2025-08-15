@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 import configViewEngine from "./config/viewEngine.js";
 import initWebRoutes from "./routes/web.js";
-
+import connectDB from "./config/connectDB.js"
 dotenv.config();
 const app = express();
 
@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Config view engine & routes
 configViewEngine(app);
 initWebRoutes(app);
-
+connectDB();
 let port = process.env.PORT || 6969;
 
 app.listen(port, () => console.log(`🚀 Server đang chạy tại http://localhost:${port}`));
