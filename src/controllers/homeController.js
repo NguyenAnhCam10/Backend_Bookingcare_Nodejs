@@ -15,7 +15,8 @@ let getCRUD = (req, res) =>{
     return res.render('crud.ejs')
 }
 let postCRUD = async (req, res) =>{
-    await CRUDService.createNewUser(req.body);
+    let message = await CRUDService.createNewUser(req.body);
+    console.log(message);
     return res.send('postCRUD')
 }
 export default {
