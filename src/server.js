@@ -5,9 +5,15 @@ import dotenv from "dotenv";
 import configViewEngine from "./config/viewEngine.js";
 import initWebRoutes from "./routes/web.js";
 import connectDB from "./config/connectDB.js"
+import cors from 'cors';
+
 dotenv.config();
 const app = express();
-
+app.use(cors({
+  origin: "http://localhost:3000",  // chỉ cho phép React ở cổng 3000
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -3,9 +3,9 @@ import bcrypt from "bcryptjs";
 import { resolve } from "path";
 import db from "../models/index.js";
 const salt = bcrypt.genSaltSync(10);
-let createNewUser = async (data) =>{
-    return new Promise  (async(resolve, reject) => {
-        try{
+let createNewUser = async (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
             let hashPasswordFromBcrypt = await hashUserPassword(data.password);
             await db.User.create({
                 firstName: data.firstName,
@@ -15,104 +15,104 @@ let createNewUser = async (data) =>{
                 address: data.address,
                 phonenumber: data.phonenumber,
                 gender: data.gender === '1' ? true : false,
-                
+
                 roleId: data.roleId,
-                
+
             })
             resolve('ok! create  ')
-        }catch(e){
+        } catch (e) {
             reject(e);
         }
     })
-   
-    
+
+
 }
 
 let hashUserPassword = (password) => {
-    return new Promise (async(resolve, reject) =>{
-        try{
+    return new Promise(async (resolve, reject) => {
+        try {
             let hashPassword = await bcrypt.hashSync(password, salt);
 
             resolve(hashPassword);
-        }catch(e){
+        } catch (e) {
             reject(e);
         }
-        
-    // Store hash in your password DB
+
+        // Store hash in your password DB
     })
 }
 let getAllUser = () => {
-    return new Promise (async(resolve, reject) =>{
-        try{
-            let users = db.User.findAll( {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let users = db.User.findAll({
                 raw: true,
             });
             resolve(users);
-        }catch(e){
+        } catch (e) {
             reject(e);
         }
-    }) 
+    })
 }
-let getUserInfoById = (userId) =>{
-    return new Promise(async (resolve, reject) =>{
-        try{
-            let user  = await db.User.findOne({
-            where:{id: userId},
-            raw: true,
+let getUserInfoById = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: { id: userId },
+                raw: true,
             })
-            if(user){
+            if (user) {
                 resolve(user);
-            }else{
+            } else {
                 resolve([]);
             }
-        }catch(e){
+        } catch (e) {
             reject(e);
         }
     })
 }
 
 let updateUserData = (data) => {
-    return new Promise (async(resolve, reject) =>{
-        try{
-            
+    return new Promise(async (resolve, reject) => {
+        try {
+
             let user = await db.User.findOne({
-                where: {id: data.id}
+                where: { id: data.id }
             })
-            if(user){
+            if (user) {
                 user.firstName = data.firstName;
                 user.lastName = data.lastName;
                 user.email = data.email;
-                await user.save(); 
-                let allUser = await db.User.findAll(); 
+                await user.save();
+                let allUser = await db.User.findAll();
                 resolve(allUser);
-            }else{
+            } else {
                 resolve();
             }
-            
-        }catch(e){
+
+        } catch (e) {
             console.log(e);
         }
     })
 }
-let  deleteUserById = (userId) =>{
-    return new Promise(async(resolve, reject) => {
-        try{
+let deleteUserById = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
             let user = await db.User.findOne({
-                where: {id: userId}
+                where: { id: userId }
             })
-            if(user){
+            if (user) {
                 await user.destroy();
             }
             resolve();
-        }catch(e){
+        } catch (e) {
             reject(e);
         }
     })
 }
 export default {
-createNewUser,
-getAllUser,
-getUserInfoById,
-updateUserData,
-deleteUserById,
+    createNewUser,
+    getAllUser,
+    getUserInfoById,
+    updateUserData,
+    deleteUserById,
 }
