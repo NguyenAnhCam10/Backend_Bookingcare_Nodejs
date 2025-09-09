@@ -2,14 +2,14 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Allcode', {
+    await queryInterface.createTable('Allcodes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER.UNSIGNED
       },
-      key: {
+      keyMap: {
         type: Sequelize.STRING
       },
       type: {
@@ -21,7 +21,7 @@ export default {
       valueVi: {
         type: Sequelize.STRING
       },
-      
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -33,6 +33,6 @@ export default {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Allcode');
+    await queryInterface.dropTable('Allcodes');
   }
 };

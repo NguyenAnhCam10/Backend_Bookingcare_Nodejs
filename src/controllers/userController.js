@@ -57,10 +57,23 @@ let handleDeleteUser = async (req, res) => {
     let message = await userService.deleteUser(req.body.id);
     return res.status(200).json(message);
 }
+let getAllcode = async (req, res) => {
+    try {
+        let data = await userService.getAllcodeService(req.query.type);
+        return res.status(200).json(data);
+    } catch (e) {
+        console.log('Get all code: ', e)
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
+}
 export default {
     handleLogin,
     handleGetAllUsers,
     handleCreateNewUser,
     handleEditUser,
     handleDeleteUser,
+    getAllcode,
 }

@@ -15,9 +15,10 @@ app.use(cors({
   credentials: true
 }));
 // Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 // Config view engine & routes
 configViewEngine(app);
 initWebRoutes(app);

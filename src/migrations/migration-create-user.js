@@ -28,7 +28,7 @@ export default {
         type: Sequelize.STRING
       },
       gender: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.STRING
       },
       image: {
         type: Sequelize.STRING
