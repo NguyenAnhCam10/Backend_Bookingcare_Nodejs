@@ -38,14 +38,30 @@ let handleGetAllUsers = async (req, res) => {
 
 }
 let handleCreateNewUser = async (req, res) => {
-    let message = await userService.createNewUser(req.body);
+    // let message = await userService.createNewUser(req.body);
+    // return res.status(200).json(message);
+    let data = {
+        ...req.body,
+        image: req.file ? req.file.path : null, // 
+    };
+
+    let message = await userService.createNewUser(data);
     return res.status(200).json(message);
 }
 let handleEditUser = async (req, res) => {
-    let data = req.body;
+    // let data = req.body;
+    // let message = await userService.updateUserData(data);
+    // return res.status(200).json(message)
+    let data = {
+        ...req.body,
+        image: req.file ? req.file.path : req.body.image
+    };
+
     let message = await userService.updateUserData(data);
     return res.status(200).json(message)
+
 }
+
 let handleDeleteUser = async (req, res) => {
     if (!req.body.id) {
         return res.status(200).json({

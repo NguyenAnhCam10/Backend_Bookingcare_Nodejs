@@ -23,7 +23,7 @@ export default (sequelize) => {
     address: DataTypes.STRING,
     phonenumber: DataTypes.STRING,
     gender: DataTypes.STRING,
-    image: DataTypes.STRING,
+    image: DataTypes.TEXT,
     roleId: DataTypes.STRING,
     positionId: DataTypes.STRING
   }, {

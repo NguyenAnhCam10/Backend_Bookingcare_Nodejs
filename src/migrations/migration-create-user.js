@@ -31,7 +31,8 @@ export default {
         type: Sequelize.STRING
       },
       image: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT('long'),
+        allowNull: true
       },
       roleId: {
         type: Sequelize.STRING
