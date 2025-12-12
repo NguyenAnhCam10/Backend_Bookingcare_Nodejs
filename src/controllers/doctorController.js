@@ -13,7 +13,7 @@ let getTopDoctorHome = async (req, res) => {
         // TRẢ DỮ LIỆU CHO FRONTEND
         return res.status(200).json({
             errCode: 0,
-            data: response
+            data: response.data
         });
     } catch (e) {
         console.error(e);
@@ -43,8 +43,54 @@ let createDoctor = async (req, res) => {
         });
     }
 };
+let getAllDoctors = async (req, res) => {
+    try {
+        let doctors = await doctorService.getAllDoctors();
+        return res.status(200).json(doctors)
+    } catch (e) {
+        console.log("SERVER ERROR >>> ", e);  // <---- IN LỖI THẬT
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Errol from  the server'
+        })
+    }
+}
+let postInforDoctor = async (req, res) => {
+    try {
+        let response = await doctorService.saveDetailInforDoctor(req.body);
 
+        return res.status(200).json(response)
+    } catch (e) {
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Errol from  the server'
+        })
+    }
+}
+let getDetailDoctorById = async (req, res) => {
+    try {
+        if (!req.query.id) {
+            return res.status(200).json({
+                errCode: 3,
+                errMessage: 'Missing req.query.id'
+            })
+        }
+        let infor = await doctorService.getDetailDoctorById(req.query.id)
+        return res.status(200).json(
+            infor
+        )
+    } catch (e) {
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Errol from  the server'
+        })
+    }
+}
 export default {
     getTopDoctorHome,
-    createDoctor
+    createDoctor,
+    getAllDoctors,
+    postInforDoctor,
+    getDetailDoctorById,
 };

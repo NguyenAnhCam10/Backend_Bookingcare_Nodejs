@@ -12,6 +12,7 @@ export default (sequelize) => {
         targetKey: 'keyMap',
         as: 'roleData'
       });
+      User.hasOne(models.Markdown, { foreignKey: 'doctorId' })
     }
   }
   User.init({
