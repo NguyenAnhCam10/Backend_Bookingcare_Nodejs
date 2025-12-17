@@ -39,12 +39,16 @@ const initWebRoutes = (app) => {
   router.get('/api/get-all-doctors', doctorController.getAllDoctors);
   router.post('/api/save-infor-doctors', doctorController.postInforDoctor);
   router.get('/api/get-detail-doctor-by-id', doctorController.getDetailDoctorById)
+  router.get('/api/get-schedule-doctor-by-date', doctorController.getScheduleByDate)
 
   router.post(
     '/api/create-doctor',
     uploadCloud.single('image'),
     doctorController.createDoctor
   );
+
+  router.post('/api/bulk-create-schedule', doctorController.bulkCreateSchedule)
+
   return app.use("/", router);
 };
 

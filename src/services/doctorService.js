@@ -1,6 +1,14 @@
 import { where } from "sequelize"
 import db from "../models/index.js"
+import { resolve } from "path"
+import { rejects } from "assert"
+import dotenv from 'dotenv'
+dotenv.config()
+import _ from 'lodash';
+import { error } from "console"
+import { Op } from 'sequelize';
 
+const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
 let getTopDoctorHome = (limitInput) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -48,9 +56,13 @@ let getAllDoctors = () => {
 let saveDetailInforDoctor = (inputData) => {
 
     return new Promise(async (resolve, reject) => {
+
+
         try {
             if (!inputData.doctorId || !inputData.contentHTML || !inputData.contentMarkdown
-                || !inputData.action
+                || !inputData.action || !inputData.selectedPrice || !inputData.selectedPayment
+                || !inputData.selectedProvince || !inputData.nameClinic || !inputData.addressClinic
+                || !inputData.note
             ) {
                 resolve({
                     errCode: 1,
@@ -79,7 +91,35 @@ let saveDetailInforDoctor = (inputData) => {
                         await doctorMarkdown.save()
                     }
                 }
+                let doctorInfor = await db.Doctor_Infor.findOne({
+                    where: {
+                        doctorId: inputData.doctorId,
 
+                    },
+                    raw: false
+                })
+                if (doctorInfor) {
+                    doctorInfor.priceId = inputData.selectedPrice;
+                    doctorInfor.provinceId = inputData.selectedProvince;
+                    doctorInfor.paymentId = inputData.selectedPayment;
+
+                    doctorInfor.nameClinic = inputData.nameClinic;
+                    doctorInfor.addressClinic = inputData.addressClinic;
+                    doctorInfor.note = inputData.note;
+
+                    await doctorInfor.save()
+                } else {
+                    await db.Doctor_Infor.create({
+                        doctorId: inputData.doctorId,
+                        priceId: inputData.selectedPrice,
+                        provinceId: inputData.selectedProvince,
+                        paymentId: inputData.selectedPayment,
+
+                        nameClinic: inputData.nameClinic,
+                        addressClinic: inputData.addressClinic,
+                        note: inputData.note,
+                    })
+                }
                 resolve({
                     errCode: 0,
                     errMessage: 'Save infor doctor succeed'
@@ -125,9 +165,94 @@ let getDetailDoctorById = (inputId) => {
         }
     })
 }
+let bulkCreateScheduleService = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data.arrSchedule || !data.doctorId || !data.FormattedDate) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required param!'
+                })
+            } else {
+                let schedule = data.arrSchedule
+                if (schedule && schedule.length > 0) {
+                    schedule = schedule.map(item => {
+                        item.maxNumber = MAX_NUMBER_SCHEDULE
+                        return item
+                    })
+                }
+                let existing = await db.Schedule.findAll(
+                    {
+                        where: { doctorId: data.doctorId, date: data.FormattedDate },
+                        attributes: ['timeType', 'date', 'doctorId', 'maxNumber'],
+                        raw: true
+                    }
+                )
+
+                let toCreate = _.differenceWith(schedule, existing, (a, b) => {
+                    return a.timeType === b.timeType && +a.date === +b.date;
+                })
+
+                if (toCreate && toCreate.length > 0) {
+                    await db.Schedule.bulkCreate(toCreate)
+
+                }
+                // await db.Schedule.bulkCreate(schedule)
+                resolve({
+                    errCode: 0,
+                    errMessage: 'Ok'
+                })
+            }
+
+
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+let getScheduleByDateService = (doctorId, date) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!doctorId || !date) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameter'
+                })
+            } else {
+                let dataSchedule = await db.Schedule.findAll({
+                    where: {
+                        doctorId: doctorId,
+                        date: date
+                    },
+                    include: [
+                        { model: db.Allcode, as: 'timeTypeData', attributes: ['valueEn', 'valueVi'] }
+                    ],
+                    raw: false,
+                    nest: true
+                })
+                if (!dataSchedule) dataSchedule = []
+                resolve({
+                    errCode: 0,
+                    data: dataSchedule
+
+                })
+            }
+
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+
+
+
+
 export default {
     getTopDoctorHome,
     getAllDoctors,
     saveDetailInforDoctor,
     getDetailDoctorById,
+    bulkCreateScheduleService,
+    getScheduleByDateService,
 }

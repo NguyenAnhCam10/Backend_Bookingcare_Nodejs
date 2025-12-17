@@ -48,7 +48,7 @@ let getAllDoctors = async (req, res) => {
         let doctors = await doctorService.getAllDoctors();
         return res.status(200).json(doctors)
     } catch (e) {
-        console.log("SERVER ERROR >>> ", e);  // <---- IN LỖI THẬT
+        console.log("SERVER ERROR >>> ", e);
         return res.status(200).json({
             errCode: -1,
             errMessage: 'Errol from  the server'
@@ -87,10 +87,44 @@ let getDetailDoctorById = async (req, res) => {
         })
     }
 }
+let bulkCreateSchedule = async (req, res) => {
+    try {
+
+        let infor = await doctorService.bulkCreateScheduleService(req.body)
+        return res.status(200).json(
+            infor
+        )
+    } catch (e) {
+        console.log(e);
+
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Errol from  the server'
+        })
+    }
+}
+let getScheduleByDate = async (req, res) => {
+    try {
+
+        let infor = await doctorService.getScheduleByDateService(req.query.doctorId, req.query.date)
+        return res.status(200).json(
+            infor
+        )
+    } catch (e) {
+        console.log(e);
+
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Errol from  the server'
+        })
+    }
+}
 export default {
     getTopDoctorHome,
     createDoctor,
     getAllDoctors,
     postInforDoctor,
     getDetailDoctorById,
+    bulkCreateSchedule,
+    getScheduleByDate,
 };
