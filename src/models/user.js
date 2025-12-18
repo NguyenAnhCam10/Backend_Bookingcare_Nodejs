@@ -13,6 +13,7 @@ export default (sequelize) => {
         as: 'roleData'
       });
       User.hasOne(models.Markdown, { foreignKey: 'doctorId' })
+      User.hasOne(models.Doctor_Infor, { foreignKey: 'doctorId' })
     }
   }
   User.init({

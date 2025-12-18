@@ -41,6 +41,10 @@ const initWebRoutes = (app) => {
   router.get('/api/get-detail-doctor-by-id', doctorController.getDetailDoctorById)
   router.get('/api/get-schedule-doctor-by-date', doctorController.getScheduleByDate)
 
+  router.get('/api/get-extra-infor-doctor-by-id', doctorController.getExtraInforDocTorById)
+
+  router.get('/api/get-profile-doctor-by-id', doctorController.getProfileDoctorById)
+
   router.post(
     '/api/create-doctor',
     uploadCloud.single('image'),
