@@ -3,8 +3,7 @@ import homeController from "../controllers/homeController.js"
 import userController from "../controllers/userController.js"
 import doctorController from "../controllers/doctorController.js"
 import uploadCloud from "../middlewares/uploadCloud.js";
-console.log('uploadCloud:', uploadCloud);
-console.log('createDoctor:', doctorController.createDoctor);
+import patientController from "../controllers/patientController.js"
 
 const router = express.Router();
 
@@ -52,6 +51,8 @@ const initWebRoutes = (app) => {
   );
 
   router.post('/api/bulk-create-schedule', doctorController.bulkCreateSchedule)
+
+  router.post('/api/patient-book-appointment', patientController.postBookAppoinment)
 
   return app.use("/", router);
 };
