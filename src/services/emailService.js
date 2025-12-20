@@ -24,7 +24,23 @@ let sendSimpleEmail = async (data) => {
             from: `"Booking Appointment" <${process.env.EMAIL_APP}>`,
             to: data.email,
             subject: 'Thông tin đặt lịch khám bệnh',
-            html: `
+            html: getBodyHTMLEmail(data)
+        });
+
+        console.log(' Email sent:', info.messageId);
+        return true;
+    } catch (e) {
+        console.log(' Send email error:', e);
+        return false;
+    }
+};
+
+
+let getBodyHTMLEmail = (data) => {
+    let result = ''
+    if (data.language === 'vi') {
+        result =
+            `
                 <div style="font-family:Arial,Helvetica,sans-serif; font-size:14px; color:#333;">
         <p>Xin chào <strong>${data.fullName}</strong>,</p>
 
@@ -37,7 +53,7 @@ let sendSimpleEmail = async (data) => {
         <p>
             <strong>Bác sĩ:</strong> ${data.doctorName}<br/>
             <strong>Thời gian:</strong> ${data.time}<br/>
-            <strong>Ngày khám:</strong> ${data.date}
+           
         </p>
 
         <p>
@@ -58,18 +74,47 @@ let sendSimpleEmail = async (data) => {
         </p>
     </div>
             `
-        });
-
-        console.log(' Email sent:', info.messageId);
-        return true;
-    } catch (e) {
-        console.log(' Send email error:', e);
-        return false;
     }
-};
+    if (data.language === 'en') {
+        result = `
+        <div style="font-family:Arial,Helvetica,sans-serif; font-size:14px; color:#333;">
+    <p>Hello <strong>${data.fullName}</strong>,</p>
 
+    <p>
+        You have successfully scheduled a medical appointment through
+        <strong>Booking Appointment</strong>.
+        Below are the appointment details:
+    </p>
 
+    <p>
+        <strong>Doctor:</strong> ${data.doctorName}<br/>
+        <strong>Time:</strong> ${data.time}<br/>
+       
+    </p>
 
+    <p>
+        Please click the link below to <strong>confirm your appointment</strong>:
+    </p>
+
+    <p>
+        👉 <a href="${data.confirmLink}">Confirm Appointment</a>
+    </p>
+
+    <p style="margin-top:16px;">
+        If you did not make this appointment, please ignore this email.
+    </p>
+
+    <p style="margin-top:24px;">
+        Best regards,<br/>
+        <strong>Booking Appointment</strong>
+    </p>
+</div>
+
+        `
+
+    }
+    return result
+}
 
 export default {
     sendSimpleEmail

@@ -6,6 +6,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 import _ from 'lodash';
 import emailService from "./emailService.js"
+import { time } from "console"
 
 
 // let postBookAppoinmentService = async (data) => {
@@ -95,7 +96,7 @@ let postBookAppoinmentService = async (data) => {
 
 
         await db.Booking.create({
-            statusID: 'S1',
+            statusId: 'S1',
             doctorId: data.doctorId,
             patientId: user.id,
             date: data.date,
@@ -107,8 +108,10 @@ let postBookAppoinmentService = async (data) => {
             email: data.email,
             fullName: data.fullName || 'Quý khách',
             doctorName: data.doctorName || 'Bác sĩ',
-            time: data.timeType,
-            date: data.date
+            time: data.timeString,
+            date: data.date,
+            language: data.language,
+
         });
 
         if (!emailResult) {

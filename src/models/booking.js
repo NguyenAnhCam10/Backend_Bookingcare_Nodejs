@@ -14,6 +14,8 @@ export default (sequelize) => {
     patientId: DataTypes.STRING,
     date: DataTypes.STRING,
     timeType: DataTypes.STRING,
+    token: DataTypes.STRING,
+
 
   }, {
     sequelize,

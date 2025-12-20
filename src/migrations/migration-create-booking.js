@@ -9,7 +9,7 @@ export default {
         primaryKey: true,
         type: Sequelize.INTEGER.UNSIGNED
       },
-      statusID: {
+      statusId: {
         type: Sequelize.STRING
       },
       doctorId: {
@@ -22,6 +22,9 @@ export default {
         type: Sequelize.STRING
       },
       timeType: {
+        type: Sequelize.STRING
+      },
+      token: {
         type: Sequelize.STRING
       },
       createdAt: {
