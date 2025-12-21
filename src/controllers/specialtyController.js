@@ -1,11 +1,16 @@
-import patientService from '../services/patientService.js'
-
-let postBookAppoinment = async (req, res) => {
+import specialtyService from '../services/specialtyService.js'
 
 
+
+let createSpecialty = async (req, res) => {
     try {
 
-        let infor = await patientService.postBookAppoinmentService(req.body)
+        let infor = await specialtyService.createSpecialtyService({
+            ...req.body,
+            image: req.file?.path
+
+        })
+
         return res.status(200).json(
             infor
         )
@@ -18,10 +23,11 @@ let postBookAppoinment = async (req, res) => {
         })
     }
 }
-let postverifyBookAppoinment = async (req, res) => {
+let getAllSpecialty = async (req, res) => {
     try {
 
-        let infor = await patientService.postverifyBookAppoinmentService(req.body)
+        let infor = await specialtyService.getAllSpecialtyService()
+
         return res.status(200).json(
             infor
         )
@@ -35,8 +41,8 @@ let postverifyBookAppoinment = async (req, res) => {
     }
 }
 export default {
-    postBookAppoinment,
-    postverifyBookAppoinment
+    createSpecialty,
+    getAllSpecialty
 
 }
 

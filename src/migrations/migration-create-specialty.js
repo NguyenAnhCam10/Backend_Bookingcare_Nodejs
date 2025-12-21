@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Specialty', {
+    await queryInterface.createTable('Specialtys', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,13 +12,17 @@ export default {
       name: {
         type: Sequelize.STRING
       },
-      description: {
-        type: Sequelize.TEXT
-      },
+
       image: {
         type: Sequelize.STRING
       },
-     
+      descriptonHTML: {
+        type: Sequelize.TEXT
+      },
+      descriptionMarkdown: {
+        type: Sequelize.TEXT
+      },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -30,6 +34,6 @@ export default {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Specialty');
+    await queryInterface.dropTable('Specialtys');
   }
 };

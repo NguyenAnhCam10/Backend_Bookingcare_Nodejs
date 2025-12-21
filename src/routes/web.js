@@ -4,7 +4,7 @@ import userController from "../controllers/userController.js"
 import doctorController from "../controllers/doctorController.js"
 import uploadCloud from "../middlewares/uploadCloud.js";
 import patientController from "../controllers/patientController.js"
-
+import specialtyController from '../controllers/specialtyController.js'
 const router = express.Router();
 
 const initWebRoutes = (app) => {
@@ -44,15 +44,18 @@ const initWebRoutes = (app) => {
 
   router.get('/api/get-profile-doctor-by-id', doctorController.getProfileDoctorById)
 
-  router.post(
-    '/api/create-doctor',
-    uploadCloud.single('image'),
-    doctorController.createDoctor
-  );
+  router.post('/api/create-doctor', uploadCloud.single('image'), doctorController.createDoctor);
 
   router.post('/api/bulk-create-schedule', doctorController.bulkCreateSchedule)
 
   router.post('/api/patient-book-appointment', patientController.postBookAppoinment)
+  router.post('/api/verify-book-appointment', patientController.postverifyBookAppoinment)
+
+
+  router.post('/api/create-new-specialty', uploadCloud.single('image'), specialtyController.createSpecialty);
+
+  router.get('/api/get-specialty', specialtyController.getAllSpecialty);
+
 
   return app.use("/", router);
 };

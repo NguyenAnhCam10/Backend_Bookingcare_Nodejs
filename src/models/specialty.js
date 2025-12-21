@@ -9,12 +9,17 @@ export default (sequelize) => {
   }
   Specialty.init({
     name: DataTypes.STRING,
-    description: DataTypes.TEXT,
+
     image: DataTypes.STRING,
-    
+    descriptonHTML: DataTypes.TEXT,
+
+
+    descriptionMarkdown: DataTypes.TEXT
+
   }, {
     sequelize,
     modelName: 'Specialty',
+    tableName: 'Specialtys',
   });
   return Specialty;
 };

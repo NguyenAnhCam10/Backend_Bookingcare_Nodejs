@@ -61,7 +61,7 @@ let getBodyHTMLEmail = (data) => {
         </p>
 
         <p>
-            👉 <a href="${data.confirmLink}">Xác nhận lịch khám</a>
+            👉 <a href="${data.redirecLink}">Xác nhận lịch khám</a>
         </p>
 
         <p style="margin-top:16px;">
