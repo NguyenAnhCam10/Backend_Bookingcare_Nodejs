@@ -12,8 +12,6 @@ export default (sequelize) => {
 
     image: DataTypes.STRING,
     descriptonHTML: DataTypes.TEXT,
-
-
     descriptionMarkdown: DataTypes.TEXT
 
   }, {

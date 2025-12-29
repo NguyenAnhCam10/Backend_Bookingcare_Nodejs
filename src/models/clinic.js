@@ -10,12 +10,14 @@ export default (sequelize) => {
   Clinic.init({
     name: DataTypes.STRING,
     address: DataTypes.STRING,
-    description: DataTypes.TEXT,
     image: DataTypes.STRING,
-    
+    descriptionHTML: DataTypes.TEXT,
+    descriptionMarkdown: DataTypes.TEXT
+
   }, {
     sequelize,
     modelName: 'Clinic',
+    tableName: 'Clinic',
   });
   return Clinic;
 };

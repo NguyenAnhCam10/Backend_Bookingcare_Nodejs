@@ -5,6 +5,7 @@ import doctorController from "../controllers/doctorController.js"
 import uploadCloud from "../middlewares/uploadCloud.js";
 import patientController from "../controllers/patientController.js"
 import specialtyController from '../controllers/specialtyController.js'
+import clinicController from '../controllers/clinicController.js'
 const router = express.Router();
 
 const initWebRoutes = (app) => {
@@ -53,8 +54,12 @@ const initWebRoutes = (app) => {
 
 
   router.post('/api/create-new-specialty', uploadCloud.single('image'), specialtyController.createSpecialty);
-
   router.get('/api/get-specialty', specialtyController.getAllSpecialty);
+  router.get('/api/get-detail-specialty-by-id', specialtyController.getDetailSpecialtyById);
+
+  router.post('/api/create-new-clinic', uploadCloud.single('image'), clinicController.createClinic);
+  router.get('/api/get-clinic', clinicController.getAllClinic);
+  router.get('/api/get-detail-clinic-by-id', clinicController.getDetailClinicById);
 
 
   return app.use("/", router);

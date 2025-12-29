@@ -1,20 +1,21 @@
 
 import { where } from "sequelize";
 import db from "../models/index.js"
-let createSpecialtyService = (data) => {
+let createClinicService = (data) => {
     return new Promise(async (resolve, reject) => {
 
         try {
-            if (!data.name || !data.image || !data.descriptionHTML || !data.descriptionMarkdown) {
+            if (!data.name || !data.image || !data.descriptionHTML || !data.descriptionMarkdown || !data.address) {
                 return resolve({
                     errCode: 1,
                     errMessage: 'Missing required parameter'
                 });
             } else {
-                await db.Specialty.create({
+                await db.Clinic.create({
                     name: data.name,
                     image: data.image,
-                    descriptonHTML: data.descriptionHTML,
+                    address: data.address,
+                    descriptionHTML: data.descriptionHTML,
                     descriptionMarkdown: data.descriptionMarkdown
 
                 })
@@ -31,10 +32,10 @@ let createSpecialtyService = (data) => {
 }
 
 
-let getAllSpecialtyService = () => {
+let getAllClinicService = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let data = await db.Specialty.findAll();
+            let data = await db.Clinic.findAll();
             resolve({
                 errMessage: 'OK',
                 errCode: 0,
@@ -45,7 +46,7 @@ let getAllSpecialtyService = () => {
         }
     })
 }
-let getDetailSpecialtyByIdService = (inputId, location) => {
+let getDetailClinicByIdService = (inputId) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (!inputId || !location) {
@@ -100,9 +101,9 @@ let getDetailSpecialtyByIdService = (inputId, location) => {
 }
 export default {
 
-    createSpecialtyService,
-    getAllSpecialtyService,
-    getDetailSpecialtyByIdService
+    createClinicService,
+    getAllClinicService,
+    getDetailClinicByIdService
 
 
 }

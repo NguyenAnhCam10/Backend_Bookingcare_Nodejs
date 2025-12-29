@@ -1,11 +1,11 @@
-import specialtyService from '../services/specialtyService.js'
+import clinicService from '../services/clinicService.js'
 
 
 
-let createSpecialty = async (req, res) => {
+let createClinic = async (req, res) => {
     try {
 
-        let infor = await specialtyService.createSpecialtyService({
+        let infor = await clinicService.createClinicService({
             ...req.body,
             image: req.file?.path
 
@@ -23,10 +23,10 @@ let createSpecialty = async (req, res) => {
         })
     }
 }
-let getAllSpecialty = async (req, res) => {
+let getAllClinic = async (req, res) => {
     try {
 
-        let infor = await specialtyService.getAllSpecialtyService()
+        let infor = await clinicService.getAllClinicService()
 
         return res.status(200).json(
             infor
@@ -40,7 +40,7 @@ let getAllSpecialty = async (req, res) => {
         })
     }
 }
-let getDetailSpecialtyById = async (req, res) => {
+let getDetailClinicById = async (req, res) => {
     try {
 
         let infor = await specialtyService.getDetailSpecialtyByIdService(req.query.id, req.query.location)
@@ -59,9 +59,10 @@ let getDetailSpecialtyById = async (req, res) => {
 }
 
 export default {
-    createSpecialty,
-    getAllSpecialty,
-    getDetailSpecialtyById
+    createClinic,
+    getAllClinic,
+    getDetailClinicById,
 
 }
+
 
