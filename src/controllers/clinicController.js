@@ -43,7 +43,7 @@ let getAllClinic = async (req, res) => {
 let getDetailClinicById = async (req, res) => {
     try {
 
-        let infor = await specialtyService.getDetailSpecialtyByIdService(req.query.id, req.query.location)
+        let infor = await clinicService.getDetailClinicByIdService(req.query.id)
 
         return res.status(200).json(
             infor

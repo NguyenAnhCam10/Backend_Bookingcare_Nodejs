@@ -13,6 +13,8 @@ export default (sequelize) => {
       Allcode.hasMany(models.Doctor_Infor, { foreignKey: 'provinceId', as: 'provinceTypeData' });
       Allcode.hasMany(models.Doctor_Infor, { foreignKey: 'paymentId', as: 'paymentTypeData' });
 
+      Allcode.hasMany(models.Booking, { foreignKey: 'timeType', as: 'patientDataPatient' });
+
 
 
 

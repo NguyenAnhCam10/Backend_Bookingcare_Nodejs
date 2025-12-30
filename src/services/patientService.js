@@ -86,7 +86,10 @@ let postBookAppoinmentService = async (data) => {
             where: { email: data.email },
             defaults: {
                 email: data.email,
-                roleId: 'R3'
+                roleId: 'R3',
+                address: data.address,
+                gender: data.selectedGender,
+                firstName: data.fullName
             }
         });
 

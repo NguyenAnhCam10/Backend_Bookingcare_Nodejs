@@ -48,6 +48,9 @@ const initWebRoutes = (app) => {
   router.post('/api/create-doctor', uploadCloud.single('image'), doctorController.createDoctor);
 
   router.post('/api/bulk-create-schedule', doctorController.bulkCreateSchedule)
+  router.get('/api/get-list-patient-for-doctor', doctorController.getListPatientForDoctor)
+
+
 
   router.post('/api/patient-book-appointment', patientController.postBookAppoinment)
   router.post('/api/verify-book-appointment', patientController.postverifyBookAppoinment)

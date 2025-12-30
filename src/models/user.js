@@ -19,6 +19,8 @@ export default (sequelize) => {
         foreignKey: 'doctorId',
         as: 'schedules'
       });
+      User.hasMany(models.Booking, { foreignKey: 'patientId', as: 'patientData' })
+
     }
   }
   User.init({

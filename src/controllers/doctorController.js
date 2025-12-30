@@ -151,6 +151,22 @@ let getProfileDoctorById = async (req, res) => {
         })
     }
 }
+let getListPatientForDoctor = async (req, res) => {
+    try {
+
+        let infor = await doctorService.getListPatientForDoctorService(req.query.doctorId, req.query.date)
+        return res.status(200).json(
+            infor
+        )
+    } catch (e) {
+        console.log(e);
+
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Errol from  the server'
+        })
+    }
+}
 export default {
     getTopDoctorHome,
     createDoctor,
@@ -161,4 +177,5 @@ export default {
     getScheduleByDate,
     getExtraInforDocTorById,
     getProfileDoctorById,
+    getListPatientForDoctor
 };

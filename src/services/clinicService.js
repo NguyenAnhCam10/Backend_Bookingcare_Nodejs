@@ -49,7 +49,7 @@ let getAllClinicService = () => {
 let getDetailClinicByIdService = (inputId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!inputId || !location) {
+            if (!inputId) {
                 return resolve({
                     errCode: 1,
                     errMessage: 'Missing required parameter'
@@ -58,31 +58,23 @@ let getDetailClinicByIdService = (inputId) => {
 
 
 
-                let data = await db.Specialty.findOne({
+                let data = await db.Clinic.findOne({
                     where: {
                         id: inputId
                     },
-                    attributes: ['descriptonHTML', 'descriptionMarkdown'],
+                    attributes: ['descriptionHTML', 'descriptionMarkdown', 'name', 'address'],
                 })
 
                 if (data) {
-                    let doctorSpecialty = [];
-                    if (location === 'ALL') {
-                        doctorSpecialty = await db.Doctor_Infor.findAll({
-                            where: { specialtyId: inputId },
-                            attributes: ['doctorId', 'provinceId'],
-                        })
-                    } else {
-                        doctorSpecialty = await db.Doctor_Infor.findAll({
-                            where: {
-                                specialtyId: inputId,
-                                provinceId: location
-                            },
-                            attributes: ['doctorId', 'provinceId'],
-                        })
-                    }
+                    let doctorClinic = [];
 
-                    data.doctorSpecialty = doctorSpecialty
+                    doctorClinic = await db.Doctor_Infor.findAll({
+                        where: { clinicId: inputId },
+                        attributes: ['doctorId', 'provinceId'],
+                    })
+
+
+                    data.doctorClinic = doctorClinic
                 } else {
                     data = {}
                 }
