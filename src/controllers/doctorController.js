@@ -167,6 +167,49 @@ let getListPatientForDoctor = async (req, res) => {
         })
     }
 }
+
+
+// let sendRemery = async (req, res) => {
+//     try {
+//         const file = req.file;
+//         const data = req.body;
+
+//         let infor = await doctorService.sendRemeryService({
+//             ...data,
+//             file
+//         });
+
+//         return res.status(200).json(infor);
+//     } catch (e) {
+//         console.log(e);
+//         return res.status(500).json({
+//             errCode: -1,
+//             errMessage: 'Error from server'
+//         });
+//     }
+// };
+let sendRemery = async (req, res) => {
+    try {
+
+
+        let data = {
+            ...req.body,
+            fileUrl: req.file?.path // link cloudinary
+        };
+
+        let result = await doctorService.sendRemeryService(data);
+
+        return res.status(200).json(result);
+    } catch (e) {
+        console.error(e);
+        return res.status(500).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        });
+    }
+};
+
+
 export default {
     getTopDoctorHome,
     createDoctor,
@@ -177,5 +220,6 @@ export default {
     getScheduleByDate,
     getExtraInforDocTorById,
     getProfileDoctorById,
-    getListPatientForDoctor
+    getListPatientForDoctor,
+    sendRemery
 };

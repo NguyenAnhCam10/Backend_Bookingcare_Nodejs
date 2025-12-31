@@ -7,6 +7,7 @@ dotenv.config()
 import _ from 'lodash';
 import { error } from "console"
 import { Op } from 'sequelize';
+import emailService from '../services/emailService.js';
 
 const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
 let getTopDoctorHome = (limitInput) => {
@@ -418,6 +419,49 @@ let getListPatientForDoctorService = (doctorId, date) => {
         }
     })
 }
+let sendRemeryService = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            if (!data.email || !data.doctorId || !data.patientId || !data.timeType) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameter'
+                })
+            } else {
+                //Update status
+                let appointment = await db.Booking.findOne({
+                    where: {
+                        doctorId: data.doctorId,
+                        patientId: data.patientId,
+                        timeType: data.timeType,
+                        statusId: 'S2'
+                    },
+                    raw: false
+
+                })
+                if (appointment) {
+                    appointment.statusId = 'S3'
+                    await appointment.save()
+                }
+                //send email    
+                await emailService.sendRemedyEmail({
+                    email: data.email,
+                    fileUrl: data.fileUrl
+                });
+
+                resolve({
+                    errCode: 0,
+                    data: data
+                })
+            }
+
+        } catch (e) {
+            reject(e)
+        }
+
+    })
+}
 export default {
     getTopDoctorHome,
     getAllDoctors,
@@ -427,5 +471,6 @@ export default {
     getScheduleByDateService,
     getExtraInforDocTorByIdService,
     getProfileDoctorByIdService,
-    getListPatientForDoctorService
+    getListPatientForDoctorService,
+    sendRemeryService
 }

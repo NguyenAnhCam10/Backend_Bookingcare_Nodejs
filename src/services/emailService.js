@@ -116,9 +116,61 @@ let getBodyHTMLEmail = (data) => {
     return result
 }
 
+let sendRemedyEmail = async (data) => {
+    try {
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_APP,
+                pass: process.env.EMAIL_APP_PASSWORD
+            }
+        });
+
+        let info = await transporter.sendMail({
+            from: `"Booking Appointment" <${process.env.EMAIL_APP}>`,
+            to: data.email,
+            subject: 'Đơn thuốc / hóa đơn khám bệnh',
+            html: getBodyHTMLRemedy(data)
+        });
+
+        console.log('✅ Remedy email sent:', info.messageId);
+        return true;
+    } catch (e) {
+        console.log('❌ Send remedy email error:', e);
+        return false;
+    }
+};
+
+let getBodyHTMLRemedy = (data) => {
+    return `
+        <div style="font-family:Arial; font-size:14px">
+            <p>Xin chào <strong>${data.fullName || 'bạn'}</strong>,</p>
+
+            <p>
+                Bác sĩ đã gửi cho bạn <strong>đơn thuốc / hóa đơn khám bệnh</strong>.
+            </p>
+
+            <p>
+                👉 <a href="${data.fileUrl}" target="_blank">
+                    Nhấn vào đây để tải file
+                </a>
+            </p>
+
+            <p>
+                Vui lòng lưu lại file để sử dụng khi cần.
+            </p>
+
+            <p style="margin-top:20px">
+                Trân trọng,<br/>
+                <strong>Booking Appointment</strong>
+            </p>
+        </div>
+    `;
+};
+
 export default {
-    sendSimpleEmail
+    sendSimpleEmail,
 
-
+    sendRemedyEmail
 
 }
